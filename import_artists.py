@@ -1,4 +1,5 @@
 import json
+import uuid
 from google.cloud import firestore
 
 with open('artists.json') as data_file:
@@ -7,6 +8,7 @@ with open('artists.json') as data_file:
 db = firestore.Client()
 
 for artist in artists:
-    doc_ref = db.collection(u'artists').document()
+    artist["id"] = str(uuid.uuid4())
+    doc_ref = db.collection(u'artists').document(artist["id"])
     doc_ref.set(artist)
 
